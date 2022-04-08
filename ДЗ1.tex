@@ -1,0 +1,443 @@
+\documentclass[14pt]{extreport}
+\usepackage[russian]{babel}
+% поля:
+\usepackage[left=2.5cm, right=1.5cm, top=2.5cm, bottom=2.5cm]{geometry}
+\title{ДЗ No1: Регулярные языки и конечные автоматы}
+\author{Выполнил: студент группы\\ А-13б-19 Перепёлкин Дмитрий}
+\date{Апрель 2022 год}
+\usepackage{titlesec}
+\usepackage{amsmath}
+\usepackage[pdftex]{graphicx}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+\maketitle
+
+$\text{Мы будем часто обращаться к } \textbf{Лемме о разрастании} : $\\
+$\text{Для бесконечного автоматного языка } L  \\
+\text{над алфавитом } V \text{ существует такое натуральное число } n,  \\
+\text{что для любого слова } \\
+\alpha \in L  \text{ длины не меньше } n  \text{ найдутся слова } u,v,w\in V^* \text{ такие, что } \\
+\alpha =uvw, |uv|\leq n, |v|\geq 1 \\
+\text{и для всякого неотрицательного целого } i, uv^iw \text{ будет являться словом языка }L.$\\
+$\left( \exists n \in N \right) \left(\forall\alpha \in L : |\alpha| \geq n \right) \left( \exists u,v,w \in V^* \right) : $\\
+$[\alpha = uvw \wedge |uv| \leq n \wedge |v| \geq 1 \wedge \left( \forall i \in NN \cup \lbrace 0 \rbrace , uv^iw \in L \right)]$
+
+\begin{center}
+
+\titleformat{\section}[block]
+  {\hspace{\parindent}}
+  {\thesection}
+  {1ex}{}
+
+\titlespacing*{\section}{0pt}{*4}{*4}
+
+$\textbf{Задание №1. Построить конечный автомат,
+распознающий язык}$\\
+
+\end{center}
+
+$\underline{\text{Автомат №1}}$\\
+$L = \lbrace \omega \in \lbrace a,b,c \rbrace ^* | |\omega|_c = 1 \rbrace $\\
+\includegraphics{1.1}
+
+$\underline{\text{Автомат №2}}$\\
+$L = \lbrace \omega \in \lbrace a,b \rbrace ^* | |\omega|_a \leq 2; |\omega|_b \geq 2 \rbrace $\\
+
+Здесь и далее на вершинах выдаётся число встретившихся "a" и "b"\\
+	
+\includegraphics{1.2}
+
+$\underline{\text{Автомат №3}}$\\
+$L = \lbrace \omega \in \lbrace a,b \rbrace ^* | |\omega|_a \neq |\omega|_b \rbrace $\\
+
+$\text{Проверим является ли данный язык регулярным}\\
+\text{Используем лемму о разрастании}\\
+\overline L = {\omega \in {a, b}^* | |\omega|_a = |\omega|_b}$\\ 
+$\text{Доказательство: }$ \\
+$\omega = a^nb^n \in \overline L$\\ 
+$|\omega| = 2n \geq n$\\ 
+$xy =a^ia^j, \quad i + j \leq n$\\ 
+$\omega = a^ia^ja^{n - i - j}b^n$\\ 
+$\omega = a^ia^{jk}a^{n - i - j}b^n \notin \overline L \quad ,k > 1 $\\
+$\text{Язык не является регулярным, значит и исходный не является.}$ \\ 
+
+$\underline{\text{Автомат №4}}$\\
+$L = \lbrace \omega \in \lbrace a,b \rbrace ^* | \omega\omega = \omega\omega\omega \rbrace $\\
+$\text{Если }|\omega| > 0, \text{то } \omega\omega\neq\omega\omega\omega,  
+\text{значит язык есть пустое слово.}$\\
+\includegraphics{1.4}
+
+\titleformat{\section}[block]
+  {\hspace{\parindent}}
+  {\thesection}
+  {1ex}{}
+
+\titlespacing*{\section}{0pt}{*4}{*4}
+
+$\textbf{Задание №2.Построить конечный автомат,используя прямое произведение}$\\
+
+$\underline{\text{Автомат №1}}$\\
+$L_1 = \lbrace w \in \lbrace a,b \rbrace ^* ||w|_a \geq 2 \wedge |w|_b \geq 2 \rbrace $\\
+
+$L_1 = {\omega \in {a, b}^* \mid |\omega|_a \geq 2} \cap {\omega \in {a, b}^* \mid |\omega|_b \geq 2}$\\
+
+\includegraphics[scale= 0.8]{2.1}
+\includegraphics[scale= 0.8]{2.1.2}
+
+$\Sigma = {a, b} $\\ 
+$Q = \lbrace AD, AE, AF, BD, BE, BF, CD, CE, CF \rbrace $\\ 
+$S = AD $\\ 
+$T = CF $\\ 
+$\delta(AD, a) = BD \qquad \delta(BD, a) = CD \qquad \delta(CD, a) = CD$\\
+$\delta(AD, b) = AE \qquad \delta(BD, b) = BE \qquad \delta(CD, b) = CE$\\ 
+$\delta(AE, a) = BE \qquad \delta(BE, a) = CE \qquad \delta(CE, a) = CE$\\
+$\delta(AE, b) = AF \qquad \delta(BE, b) = BF \qquad \delta(CE, b) = CF $\\
+$\delta(AF, a) = BF \qquad \delta(BF, a) = CF \qquad \delta(CF, a) = CF $\\
+$\delta(AF, b) = AF \qquad \delta(BF, b) = BF \qquad \delta(CF, b) = CF$\\
+
+\includegraphics[scale= 0.8]{2.1.3}
+
+
+$\underline{\text{Автомат №2}}$\\
+$L_2 = \lbrace \omega \in \lbrace a,b \rbrace ^* ||\omega|_a \geq 3 \wedge |\omega|_b \text{нечётное} \rbrace $\\
+
+$L_2 = \lbrace \omega \in \omega \lbrace a, b \rbrace ^* ||\omega| \geq 3 \rbrace \cap \lbrace \omega \in \lbrace a, b \rbrace ^* ||\omega| \text{нечетно} \rbrace$\\
+
+\includegraphics[scale= 0.8]{2.2}\\
+\includegraphics[scale= 0.8]{2.2.1}
+
+$\Sigma = \lbrace a, b \rbrace $\\
+$Q = \lbrace AE, AF, BE, BF, CE, CF, DE, DF \rbrace $\\
+$S = AE$\\
+$T = DF$\\
+$\delta(AE, a) = BF \qquad \delta(CE, a) = DF$ \\ 
+$\delta(AE, b) = BF \qquad \delta(CE, b) = DF$ \\
+$\delta(AF, a) = BE \qquad \delta(CF, a) = DE$ \\
+$\delta(AF, b) = BE \qquad \delta(CF, b) = DE$ \\
+$\delta(BE, a) = CF \qquad \delta(DE, a) = DF$ \\
+$\delta(BE, b) = CF \qquad \delta(DE, b) = DF$ \\
+$\delta(BF, a) = CE \qquad \delta(DF, a) = DE$ \\
+$\delta(BF, b) = CE \qquad \delta(DF, b) = DE$ \\
+
+\includegraphics[scale= 0.8]{2.2.2}
+
+$\underline{\text{Автомат №3}}$\\
+$L_3 = \lbrace \omega \in \lbrace a,b \rbrace ^* | |\omega|_a  \text{чётно} \wedge |\omega|_b \text{кратно 3} \rbrace $\\
+
+$L_3 = \lbrace \omega \in \lbrace a, b \rbrace ^* ||\omega|_a \text{четно} \cap \lbrace \omega \in \lbrace a, b \rbrace ^* ||\omega|_b \text{кратно 3} \rbrace $\\
+
+\includegraphics[scale= 0.8]{2.3}
+\includegraphics[scale= 0.8]{2.3.1}
+
+$\Sigma = \lbrace a, b \rbrace $\\
+$Q = \lbrace C, AD, AE, BC, BD, BE \rbrace $\\
+$S = AC $\\*
+$T = AC $\\*
+$\delta(AC, a) = BC \qquad \delta(BC, a) = AC $\\
+$\delta(AC, b) = AD \qquad \delta(BC, b) = BD $\\
+$\delta(AD, a) = BD \qquad \delta(BD, a) = AD $\\
+$\delta(AD, b) = AE \qquad \delta(BD, b) = BE $\\
+$\delta(AE, a) = BE \qquad \delta(BE, a) = AE $\\
+$\delta(AE, b) = AC \qquad \delta(BE, b) = BC $\\
+
+\includegraphics[scale= 0.7]{2.3.2}
+
+$\underline{\text{Автомат №4}}$\\
+$L_4 = \overline{L_3}$\\
+
+\includegraphics[scale= 0.7]{2.4}
+
+$\underline{\text{Автомат №5}}$\\
+$L_5 = L_2 / L_3$\\
+$L_5 = L_2 \cap L_4$\\
+
+\includegraphics[scale= 0.8]{2.5}
+
+\begin{center}
+
+\titleformat{\section}[block]
+  {\hspace{\parindent}}
+  {\thesection}
+  {1ex}{}
+
+\titlespacing*{\section}{0pt}{*4}{*4}
+
+$\textbf{Задание №3. Построить минимальный ДКА
+по регулярному выражению}$\\
+
+\end{center}
+
+$\underline{\text{Автомат №1}}$\\
+$(ab+aba)^* a$\\
+\includegraphics[scale = 0.8]{3.1}\\
+
+Построим минимальный НКА по ДКА\\
+
+\begin{table}[h!]
+	\centering
+    \begin{tabular}{l | l | l |}
+    \hline
+     & $a$ & $b$ \\ \hline
+    $1$ & $3,6,10$ & $\emptyset$ \\ \hline
+    $3,6,10$ & $\emptyset$ & $4,7$ \\ \hline
+    $4,7$ & $8,3,6,10$ & $\emptyset$ \\ \hline
+    $8,3,610$ & $3,6,10$ & $47$ \\
+    \hline
+    \end{tabular}
+\end{table}
+
+\includegraphics[scale= 0.8]{3.1.1}
+
+$\underline{\text{Автомат №2}}$\\
+$a(a(ab)^*b)^*(ab)^*$\\
+
+Построим НКА:\\
+
+\includegraphics[scale= 0.8]{3.2}\\
+
+По нему строим ДКА:\\
+
+\begin{table}[h!]
+	\centering
+    \begin{tabular}{l | l | l |}
+    \hline
+     & $a$ & $b$ \\ \hline
+    $0$ & $17$ & $\emptyset$ \\ \hline
+    $17$ & $26$ & $\emptyset$ \\ \hline
+    $26$ & $3$ & $57$ \\ \hline
+    $3$ & $\emptyset$ & $4$ \\ \hline
+    $57$ & $26$ & $\emptyset$ \\ \hline
+    $4$ & $3$ & $5$ \\ \hline
+    $5$ & $26$ & $\emptyset$ \\ 
+    \hline
+    \end{tabular}
+\end{table}
+
+\includegraphics[scale= 0.8]{3.2.1}
+
+Минимизируем автомат: \\
+$\text{1 эквивалентность: }(0,26,3,4,\emptyset),(57,17,5)$\\
+$\text{2 эквивалентность: } (0),(26,4),(3,\emptyset),(57,17,5)$\\
+$\text{3 эквивалентность: } (0),(26,4),(3),(\emptyset),(57,17,5)$
+
+\includegraphics[scale= 0.8]{3.2.2}
+
+$\underline{\text{Автомат №3}}$\\
+$(a + (a + b) (a + b)b)^* $\\
+
+Строим НКА: \\
+
+\includegraphics[scale=0.8]{3.3}\\
+
+Строим ДКА: \\
+
+\begin{table}[h!]
+	\centering
+    \begin{tabular}{l | l | l |}
+    \hline
+     & $a$ & $b$ \\ \hline
+    $0$ & $01$ & $1$ \\ \hline
+    $01$ & $012$ & $12$ \\ \hline
+    $1$ & $2$ & $2$ \\ \hline
+    $012$ & $012$ & $012$ \\ \hline
+    $12$ & $2$ & $02$ \\ \hline
+    $2$ & $\emptyset$ & $0$ \\ \hline
+    $02$ & $01$ & $01$ \\ 
+    \hline
+    \end{tabular}
+\end{table}
+
+\includegraphics[scale= 0.8]{3.3.1}
+
+Данный автомат будет минимальным\\
+
+$\underline{\text{Автомат №4}}$\\
+$(b + c)((ab)^*c + (ba)^* )^* $\\
+
+Построим ДКА: \\
+
+\includegraphics[scale= 0.8]{3.4}
+
+Минимизируем:\\
+$\text{1 эквивалентность:} (1,2,3,4,5,\emptyset),(6,7) $\\
+$\text{2 эквивалентность:} (1,2,3,\emptyset),(4),(5),(6,7) $\\
+$\text{3 эквивалентность:} (1,2,3,\emptyset),(4),(5),(6,7) $\\
+$\text{4 эквивалентность:} (1,\emptyset),(2),(3),(4),(5),(6,7) $\\
+$\text{5 эквивалентность:} (1),(\emptyset),(2),(3),(4),(5),(6,7) $\\
+
+\includegraphics[scale= 0.8]{3.4.1}\\
+
+$\underline{\text{Автомат №5}}$\\
+$(a + b)^+ (aa + bb + abab + baba) (a + b)^+ $ \\
+
+Строим НКА: \\
+
+\includegraphics[scale= 0.8]{3.5}
+
+Преобразуем в минимальный ДКА: \\
+
+\includegraphics[scale= 0.8]{3.5.1}
+
+\begin{center}
+
+\titleformat{\section}[block]
+  {\hspace{\parindent}}
+  {\thesection}
+  {1ex}{}
+
+\titlespacing*{\section}{0pt}{*4}{*4}
+
+$\textbf{Задание №4. Определить является ли язык
+регулярным или нет}$\\
+
+\end{center}
+
+$\underline{\text{Автомат №1}}$\\
+$L = \lbrace (aab)^nb(aba)^m \mid n \geq 0, m \geq 0 \rbrace $\\
+
+\includegraphics[scale= 0.8]{4.1}
+
+$\underline{\text{Автомат №2}}$\\
+$L = \lbrace uaav |u \in \lbrace a, b \rbrace ^*, v \in \lbrace a, b \rbrace ^*, |u|_b \geq |v|_a \rbrace $\\
+
+$\omega = b^naaa^n,|\omega|\geq n $\\
+$\omega = xyz $\\
+$x=b^i \qquad y=b^j \qquad i+j\leq n \qquad j>0 $\\
+$z=b^{n-i-j}aaa^n $\\
+$|xy|\leq n \qquad |y|>0 $\\
+$xy^0z=b^ib^{n-i-j}aaa^n=b^{n-j}aaa^n \notin L $\\
+
+$\textit{Язык не является регулярным}$\\
+
+$\underline{\text{Автомат №3}}$\\
+$L = \lbrace a^mw \mid w \in \lbrace a, b \rbrace ^*, 1 \leq |w|_b \leq m \rbrace $\\
+
+$\omega = a^nb^n , |\omega| \geq n $\\
+$\omega = xyz $\\
+$x=a^i \qquad y=a^j \qquad i+j \leq n \qquad j>0 $\\
+$z=a^{n-i-j}b^n $\\
+$|xy| \leq n \qquad |y|>0 $\\
+$xy^0z=a^ia^{n-i-j}b^n = a^{n-j}b^n \notin L $\\
+
+$\textit{Язык не является регулярным}$\\
+
+$\underline{\text{Автомат №4}}$\\
+$L = \lbrace a^kb^ma^n \mid k = n \vee m > 0 \rbrace $\\
+
+$\omega = a^nba^n , |\omega| \geq n $\\
+$\omega = xyz $\\
+$x=a^i \qquad y=a^j \qquad i+j \leq n \qquad j>0 $\\
+$z=a^{n-i-j}ba^n $\\
+$|xy| \leq n \qquad |y|>0 $\\
+$xy^kz = a^ia^{jk}a^{n-i-j}ba^n = a^{n-j(k-1)}ba^n \notin L \quad \forall k > 1 $\\
+
+$\textit{Язык не является регулярным}$\\
+
+$\underline{\text{Автомат №5}}$\\
+$L = \lbrace ucv \mid u \in \lbrace a, b \rbrace ^*, v \in \lbrace a, b \rbrace ^*, u \neq v^R \rbrace $\\
+
+$\overline{L} = \lbrace ucv \mid u \in \lbrace a, b \rbrace ^*, v \in \lbrace a, b \rbrace ^*, u = v^R \rbrace \\
+\text{Используем лемму о разрастании} \\
+\omega = b^ncb^n, \omega \in \overline{L}, |\omega| = 2n+1 \\
+\text{Для всех } x,y \qquad y=b^i \\
+xy^kzk > 1 \\
+\text{Язык } \overline{L} \text{ не регулярный} \\
+\text{Значит и язык } L \text{ не регулярный.}$\\
+
+\begin{center}
+
+\titleformat{\section}[block]
+  {\hspace{\parindent}}
+  {\thesection}
+  {1ex}{}
+
+\titlespacing*{\section}{0pt}{*4}{*4}
+
+$\textbf{Задание №5. Реализовать алгоритмы}$\\
+
+\end{center}
+
+$1. \text{Построение ДКА по НКА с }\lambda \text{-переходами}$\\
+
+Алгоритм Томпсона строит по НКА эквивалентный ДКА следующим образом:\\
+Начало.\\
+Шаг 1. Помещаем в очередь Q множество, состоящее только из стартовой вершины.\\
+Шаг 2. Затем, пока очередь не пуста выполняем следующие действия:\\
+Достаем из очереди множество, назовем его q\\
+$\text{Для всех } c \in \Sigma \text{ посмотрим, в какое состояние ведет переход по символу c}\\ \text{из каждого состояния в q.}$\\ 
+Полученное множество состояний положим в очередь Q только если оно не лежало там раньше.\\ 
+Каждое такое множество в итоговом ДКА будет отдельной вершиной, в которую будут вести переходы по соответствующим символам.\\
+Если в множестве q хотя бы одна из вершин была терминальной в НКА, то соответствующая данному множеству вершина в ДКА также будет терминальной.\\
+Конец.\\
+
+Пусть дан произвольный НКА:\\
+$\left\langle \Sigma, Q, s \in Q, T\subset Q, \delta : Q * \Sigma \rightarrow 2^Q \right\rangle$ \\
+
+Построим по нему следующий ДКА:\\
+$\left\langle \Sigma, Q_d, s_d \in Q_d, T_d \subset Q_d, \delta_d : Q_d * \Sigma\rightarrow Q_d \right\rangle $\\
+
+
+$1. Q_d = \lbrace q_d | q_d \subset 2^Q$\\
+$2. s_d = \lbrace s \rbrace $\\
+$3. T_d = \lbrace q \in Q_d | \exists p \in T : p \in q \rbrace $\\
+$4.\delta_d \left( q,c \right) = \lbrace \delta \left(a,c \right) | a \in q \rbrace $\\
+
+Теорема:\\
+Построенный ДКА эквивалентен данному НКА.\\
+$\left( \text{Без доказательства} \right) $\\
+
+Пример:\\
+Пусть нам дан НКА:\\
+\includegraphics{DKA_W}\\
+
+По нашему заданию эквивалентного ДКА мы получаем:\\
+\includegraphics{NKA_W}\\
+
+2. Прямое произведение языков, с возможностью построить пересечение,
+объединение и разность\\
+
+Прямым произведением двух ДКА:\\
+$A1= \langle \Sigma 1, Q1, s1, T1, \delta 1 \rangle \text{и } A2= \langle \Sigma 2, Q2, s2, T2, \delta 2 \rangle \\ \text{Называется ДКА } A= \langle \Sigma,Q ,s ,T ,\delta \rangle, \text{где:}$
+
+%Σ=Σ1∪Σ2 
+%Q=Q1×Q2
+%s=⟨s1,s2⟩
+%T=T1×T2
+%δ(⟨q1,q2⟩,c)=⟨δ1(q1,c),δ2(q2,c)⟩
+
+$\Sigma = \Sigma 1 \cup \Sigma 2 \\
+Q=Q1 * Q2 \\
+s=\langle s1,s2 \rangle \\
+T=T1*T2 \\
+\delta \left( \langle q1,q2 \rangle ,c2 \right) = \langle \delta 1 \left( q1,c \right) , \delta 2 \left( q2,c \right) \rangle
+$\\
+
+Изменив конструкцию, получаем автомат, дающий возможность построить разность или объединение двух языков. \\
+
+\begin{figure}[h]
+\centering
+\includegraphics{Raz}
+\caption{Разность ДКА}
+\label{fig:image}
+\end{figure}
+
+
+
+\begin{figure}[h]
+\centering
+\includegraphics{Ob}
+\caption{Объединение ДКА}
+\label{fig:image}
+\end{figure}
+
+$\text{Необходимо разрешать любую цепочку,}\\
+\text{удовлетворяющую первому или второму автомату.}\\
+\text{Делаем терминальными вершины } T= \left( T1*Q2 \right) \cup \left( Q1*T2 \right).\\
+\text{Полученный автомат удовлетворяет нашим требованиям,} \\
+\text{так как попав в состояние } T1 \text{ или } T2,\text{цепочка будет удовлетворять}\\ \text{первому или второму автомату соответственно.}$\\
+
+
+\end{document}
